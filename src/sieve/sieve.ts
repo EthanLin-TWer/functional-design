@@ -33,13 +33,18 @@ const computeSieve = (sieve: boolean[], n: number): boolean[] => {
   return computeSieve(sieve, n + 1)
 }
 
-const makeSieve = (upTo: number): boolean[] => {
-  return [true, true].concat(new Array(upTo - 1).fill(false))
+const makeSieve = (upTo: number): boolean[] => [true, true].concat(new Array(upTo - 1).fill(false))
+
+const printPrimes = (sieve: boolean[]): void => {
+  console.log(sieve.map((each: boolean, index: number): string => `${index} ${!each ? '✅' : '❌'}`))
 }
 
 export class Sieve {
   static primesUpTo(upTo: number): number[] {
-    const sieve = makeSieve(Math.max(1, upTo))
-    return getPrimes(computeSieve(sieve, 0), [], 0)
+    const sieve: boolean[] = makeSieve(Math.max(1, upTo))
+    printPrimes(sieve)
+    const composites: boolean[] = computeSieve(sieve, 0)
+    printPrimes(composites)
+    return getPrimes(composites, [], 0)
   }
 }

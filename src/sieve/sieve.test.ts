@@ -25,7 +25,5 @@ it('sieve 9', () => {
 })
 
 it('sieve 50', () => {
-  expect(Sieve.primesUpTo(50)).toEqual([
-    2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47,
-  ])
+  expect(Sieve.primesUpTo(50)).toEqual([2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47])
 })

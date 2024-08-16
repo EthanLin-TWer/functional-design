@@ -45,7 +45,7 @@
     "collectCoverage": false
   },
   "prettier": {
-    "printWidth": 120,
+    "printWidth": 110,
     "tabWidth": 2,
     "semi": false,
     "singleQuote": true,

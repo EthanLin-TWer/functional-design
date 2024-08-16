@@ -1,30 +1,29 @@
 export class Sieve {
-  isComposite: boolean[]
+  private upTo: number
 
   static primesUpTo(upTo: number): number[] {
     return new Sieve(upTo).getPrimes()
   }
 
   private constructor(upTo: number) {
-    const newUpTo = upTo < 1 ? 1 : upTo
-    this.isComposite = new Array<boolean>(newUpTo + 1).fill(false)
-    this.isComposite[0] = this.isComposite[1] = true
-    for (let i = 0; i < this.isComposite.length; i += 1) {
-      if (!this.isComposite[i]) {
-        for (let c = i + i; c < this.isComposite.length; c += i) {
-          this.isComposite[c] = true
-        }
-      }
-    }
+    this.upTo = Math.max(1, upTo)
   }
 
   public getPrimes(): number[] {
-    const primes: number[] = []
-    for (let i = 0; i < this.isComposite.length; i += 1) {
-      if (!this.isComposite[i]) {
-        primes.push(i)
+    const isComposite: boolean[] = new Array(this.upTo + 1).fill(false)
+    isComposite[0] = isComposite[1] = true
+    for (let i = 0; i < isComposite.length; i += 1) {
+      if (!isComposite[i]) {
+        for (let c = i * 2; c < isComposite.length; c += i) {
+          isComposite[c] = true
+        }
       }
     }
-    return primes
+
+    return isComposite
+      .map((composite) => !composite)
+      .reduce((result, isPrime, index) => {
+        return isPrime ? result.concat(index) : result
+      }, [] as number[])
   }
 }

@@ -1,29 +1,47 @@
 export class Sieve {
-  private upTo: number
-
   static primesUpTo(upTo: number): number[] {
-    return new Sieve(upTo).getPrimes()
+    return Sieve.getPrimes(Sieve.computeSieve(Sieve.makeSieve(Math.max(1, upTo)), 0), [], 0)
   }
 
-  private constructor(upTo: number) {
-    this.upTo = Math.max(1, upTo)
-  }
-
-  public getPrimes(): number[] {
-    const isComposite: boolean[] = new Array(this.upTo + 1).fill(false)
-    isComposite[0] = isComposite[1] = true
-    for (let i = 0; i < isComposite.length; i += 1) {
-      if (!isComposite[i]) {
-        for (let c = i * 2; c < isComposite.length; c += i) {
-          isComposite[c] = true
-        }
-      }
+  public static getPrimes(sieve: boolean[], primes: number[], n: number): number[] {
+    if (n >= sieve.length) {
+      return primes
     }
 
-    return isComposite
-      .map((composite) => !composite)
-      .reduce((result, isPrime, index) => {
-        return isPrime ? result.concat(index) : result
-      }, [] as number[])
+    if (!sieve[n]) {
+      return Sieve.getPrimes(sieve, [...primes, n], n + 1)
+    }
+
+    return Sieve.getPrimes(sieve, primes, n + 1)
+  }
+
+  public static computeSieve(sieve: boolean[], n: number): boolean[] {
+    if (n >= sieve.length) {
+      return sieve
+    }
+
+    if (!sieve[n]) {
+      return Sieve.computeSieve(Sieve.markMultiples(sieve, n, 2), n + 1)
+    }
+
+    return Sieve.computeSieve(sieve, n + 1)
+  }
+
+  public static makeSieve(upTo: number): boolean[] {
+    const sieve = new Array(upTo + 1).fill(false)
+    sieve[0] = true
+    sieve[1] = true
+    return sieve
+  }
+
+  private static markMultiples(sieve: boolean[], prime: number, m: number): boolean[] {
+    const multiple: number = prime * m
+    if (multiple >= sieve.length) {
+      return sieve
+    }
+
+    const markedSieve = [...sieve]
+    markedSieve[multiple] = true
+    return Sieve.markMultiples(markedSieve, prime, m + 1)
   }
 }

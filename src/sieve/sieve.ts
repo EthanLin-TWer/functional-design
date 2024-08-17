@@ -35,7 +35,7 @@ export class Sieve {
   static primesUpTo(upTo: number): number[] {
     const sieve: boolean[] = makeSieve(Math.max(1, upTo))
     const composites: boolean[] = computeSieve(sieve, 0)
-    printPrimes(composites)
+    // printPrimes(composites)
 
     // 1. 虽然拆开了流程，并且每个函数都是纯函数，但是不同流程都依赖同一个数据结构，其实脑里还是要去算那个数据结构。而且，更鬼畜的是，你在算某个number是不是素数的时候，拿的是数组下标表示这个数，拿全量数组长度当极限（就涉及到数组下标从0开始的规则，必须用>=），烧脑。
     // 2. 递归的思路既难懂，也不好想。不知道你咋弄出来这个一个东西。
